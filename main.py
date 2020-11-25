@@ -67,14 +67,14 @@ with np.printoptions(precision=2, suppress=True):
 horsepower = np.array(train_features['Horsepower'])
 
 
-horsepower_normalizer = preprocessing.Normalization(input_shape=[1])
+horsepower_normalizer = preprocessing.Normalization(input_shape=[1,])
 horsepower_normalizer.adapt(horsepower)
 
 
 
-horsepower_model = tf.keras.Sequential([
+horsepower_model = keras.Sequential([
     horsepower_normalizer,
-    layers.Dense(units=1)
+    layers.Dense(units=1, activation='softmax')
 ])
 
 
@@ -84,8 +84,6 @@ horsepower_model.summary()
 print('------')
 print(horsepower_model.predict(horsepower[:10]))
 sys.exit()
-#print(horsepower_model.predict(horsepower[:10]))
-
 
 
 horsepower_model.compile(
@@ -97,7 +95,7 @@ history = horsepower_model.fit(
     train_features['Horsepower'], train_labels,
     epochs=100,
     # suppress logging
-    verbose=0,
+    verbose=1,
     # Calculate validation results on 20% of the training data
     validation_split = 0.2)
 
@@ -115,7 +113,7 @@ def plot_loss(history):
   plt.legend()
   plt.grid(True)
   
-plot_loss(history)
+#plot_loss(history)
   
 sys.exit()
 test_results = {}
@@ -136,6 +134,6 @@ def plot_horsepower(x, y):
   plt.ylabel('MPG')
   plt.legend()
 
-#plot_horsepower(x,y)
+plot_horsepower(x,y)
 
 
