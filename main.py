@@ -8,7 +8,7 @@ import seaborn as sns
 np.set_printoptions(precision=3, suppress=True)
 
 import tensorflow as tf
-
+import sys
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.layers.experimental import preprocessing
@@ -29,7 +29,6 @@ def plot_horsepower(x, y):
   plt.legend()
 
 print(tf.__version__)
-
 url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data'
 column_names = ['MPG', 'Cylinders', 'Displacement', 'Horsepower', 'Weight',
                 'Acceleration', 'Model Year', 'Origin']
@@ -84,6 +83,12 @@ horsepower_model = tf.keras.Sequential([
 ])
 
 horsepower_model.summary()
+print('-------')
+print(horsepower_model.predict(horsepower[:10]))
+sys.exit()
+
+
+
 
 horsepower_model.predict(horsepower[:10])
 horsepower_model.compile(
@@ -95,7 +100,7 @@ history = horsepower_model.fit(
     train_features['Horsepower'], train_labels,
     epochs=100,
     # suppress logging
-    verbose=0,
+    verbose=1,
     # Calculate validation results on 20% of the training data
     validation_split = 0.2)
 
